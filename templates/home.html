@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Accueil - Manga Collection{% endblock %}
+
+{% block content %}
+  <section class="hero">
+    <div class="hero__content">
+      <h1 class="hero__title">Bienvenue {{ user.username }}</h1>
+      <p class="hero__subtitle">Gérez votre collection, explorez de nouveaux mangas et complétez votre bibliothèque.</p>
+      <div class="hero__actions">
+        <a class="btn" href="{% url 'collection' %}"><i class="fa-solid fa-book"></i> Ma collection</a>
+        <a class="btn btn--secondary" href="{% url 'recherche' %}"><i class="fa-solid fa-magnifying-glass"></i> Rechercher</a>
+        <a class="btn btn--ghost" href="{% url 'panier' %}"><i class="fa-solid fa-cart-shopping"></i> Mon panier</a>
+      </div>
+    </div>
+  </section>
+{% endblock %}

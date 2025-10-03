@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+  <div class="stats-row">
+    <div class="stat"><span class="stat__label">Tomes</span><span class="stat__value">{{ total_tomes }}</span></div>
+    <div class="stat"><span class="stat__label">Éditions</span><span class="stat__value">{{ mangas_collection|length }}</span></div>
+  </div>
+
+  {% if mangas_collection %}
+    {% for manga, tomes in mangas_collection.items %}
+      <article class="card">
+        <header class="card__header">
+          <h3 class="card__title">{{ manga }}</h3>
+          <span class="badge">{{ tomes|length }} tomes</span>
+        </header>
+        <div class="chips">
+          {% for tome in tomes %}
+            <span class="chip">T{{ tome.numero }}</span>
+          {% endfor %}
+        </div>
+      </article>
+    {% endfor %}
+  {% else %}
+    <p class="empty">Aucun tome dans ta collection.</p>
+  {% endif %}
+</section>
+{% endblock %}

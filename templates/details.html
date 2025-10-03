@@ -1,0 +1,65 @@
+{% extends 'home.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>{{ manga.nom }}</h2>
+
+    <div class="tomes-list">
+        {% for tome in tomes %}
+        <div class="tome-item">
+            <h3 class="tome-title">Tome {{ tome.numero }}</h3>
+            <img src="{{ tome.get_signed_cover_url }}" alt="Couverture du tome {{ tome.numero }}" class="img-fluid">
+            <form method="post" action="{% url 'ajouter_au_panier' tome.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Ajouter au panier</button>
+            </form>
+        </div>
+        {% empty %}
+        <p>Aucun tome disponible pour ce manga.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .img-fluid {
+        max-width: 130px;
+        height: 180px;
+    }
+
+    .tomes-list {
+        display: grid;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .tome-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #ffffff;
+    }
+
+    .tome-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #06203d;
+    }
+
+    .back-button {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.5rem 1rem;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+    }
+
+    .back-button:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}

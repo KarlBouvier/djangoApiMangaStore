@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card card--centered">
+    <h2 class="card__title">✅ Commande confirmée</h2>
+    <p>Merci pour votre commande ! Elle est en cours de traitement.</p>
+    <a href="{% url 'home' %}" class="btn">Retour à l'accueil</a>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Manga Collection{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  {% block head_extra %}{% endblock %}
+  </head>
+<body>
+  <header class="navbar">
+    <div class="navbar__left">
+      <a class="brand" href="{% url 'home' %}">Manga<span>Store</span></a>
+    </div>
+    <nav class="navbar__center">
+      <a class="navlink" href="{% url 'collection' %}"><i class="fa-solid fa-book"></i> Collection</a>
+      <a class="navlink" href="{% url 'recherche' %}"><i class="fa-solid fa-magnifying-glass"></i> Recherche</a>
+      <a class="navlink" href="{% url 'panier' %}"><i class="fa-solid fa-cart-shopping"></i> Panier</a>
+    </nav>
+    <div class="navbar__right">
+      {% if request.user.is_authenticated %}
+        <span class="user">Bonjour, <strong>{{ request.user.username }}</strong></span>
+        <a class="btn btn--ghost" href="{% url 'deconnexion' %}"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
+      {% else %}
+        <a class="btn" href="{% url 'connexion' %}">Connexion</a>
+      {% endif %}
+    </div>
+  </header>
+
+  <main class="container">
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="message message--{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <p>© {{ now|date:'Y' }} MangaStore. Tous droits réservés.</p>
+      <p class="subtle">Projet démo Django.</p>
+    </div>
+  </footer>
+
+  {% block body_extra %}{% endblock %}
+</body>
+</html>
+ 

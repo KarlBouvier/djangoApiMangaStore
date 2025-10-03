@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Connexion - Manga Collection{% endblock %}
+
+{% block content %}
+  <section class="auth">
+    <div class="card card--centered">
+      <h2 class="card__title">Se connecter</h2>
+
+      <form method="post" action="" class="form">
+        {% csrf_token %}
+
+        <div class="form__group">
+          <label for="id_username" class="form__label">Nom d'utilisateur</label>
+          {{ form.username }}
+          {{ form.username.errors }}
+        </div>
+
+        <div class="form__group">
+          <label for="id_password" class="form__label">Mot de passe</label>
+          {{ form.password }}
+          {{ form.password.errors }}
+        </div>
+
+        <button type="submit" class="btn btn--full">Se connecter</button>
+      </form>
+
+      <a href="{% url 'inscription' %}" class="link">Créer un compte</a>
+    </div>
+  </section>
+{% endblock %}

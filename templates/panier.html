@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2>🛒 Mon Panier</h2>
+
+    {% if items %}
+        <ul class="list list--divided">
+            {% for item in items %}
+                <li class="list__item cart-item">
+                    <div>
+                        {% if item.tome.cover %}
+                            <img class="cover" src="{{ item.tome.get_signed_cover_url }}" alt="Cover Tome {{ item.tome.numero }}">
+                        {% endif %}
+                    </div>
+                    <div class="cart-info">
+                        <h3>{{ item.tome.manga.nom }} - Tome {{ item.tome.numero }}</h3>
+                        <p>Quantité : {{ item.quantite }}</p>
+                    </div>
+                    <div class="cart-actions">
+                        <form method="post" action="{% url 'retirer_du_panier' item.tome.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn--danger"><i class="fa-solid fa-trash"></i> Retirer</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="cart-total stats-row">
+            <div class="stat"><span class="stat__label">Total articles</span><span class="stat__value">{{ total_tomes }}</span></div>
+            <div class="stat"><span class="stat__label">Total</span><span class="stat__value">{{ total_prix }} €</span></div>
+        </div>
+        <div>
+            <form method="post" action="{% url 'commander' %}">
+                {% csrf_token %}
+                <button class="btn"><i class="fa-solid fa-credit-card"></i> Passer à la Caisse</button>
+            </form>
+        </div>
+    {% else %}
+        <p class="empty">Votre panier est vide.</p>
+    {% endif %}
+</div>
+{% endblock %}

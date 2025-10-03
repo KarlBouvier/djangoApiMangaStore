@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section>
+  <h2 class="page-title">Rechercher un manga</h2>
+  <form method="get" class="form" style="margin-bottom:1rem; display:grid; grid-template-columns: 1fr auto; gap: .8rem;">
+    <div class="form__group">
+      <label class="form__label">Nom</label>
+      <input type="text" name="q" placeholder="Nom du manga" value="{{ q }}" />
+    </div>
+    <div class="form__group">
+      <label class="form__label">Tome</label>
+      <input type="number" min="1" name="tome" placeholder="N°" value="{{ selected_tome }}" />
+    </div>
+    <div class="form__group" style="grid-column: 1 / -1;">
+      <label class="form__label">Catégories</label>
+      <div class="filter-categories">
+        {% for c in categories %}
+          <label class="tag-check">
+            <input type="checkbox" name="category" value="{{ c.slug }}" {% if selected_categories %}{% if c.slug in selected_categories %}checked{% endif %}{% if c.id|stringformat:"s" in selected_categories %}checked{% endif %}{% endif %} />
+            <span class="tag">{{ c.name }}</span>
+          </label>
+        {% endfor %}
+      </div>
+    </div>
+    <div>
+      <button type="submit" class="btn">Filtrer</button>
+    </div>
+  </form>
+  <div class="grid">
+    {% for manga in mangas %}
+      <a class="card card--link" href="{% url 'details' manga.nom %}">
+        <div class="card__body">
+          <h3 class="card__title">{{ manga.nom }}</h3>
+          {% if manga.prefetched_categories %}
+            <div class="card__meta">Catégories:
+              {% for c in manga.prefetched_categories %}
+                <span>{{ c.name }}</span>{% if not forloop.last %}, {% endif %}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </a>
+    {% empty %}
+      <p>Aucun résultat.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
